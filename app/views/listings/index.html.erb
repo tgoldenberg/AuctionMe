@@ -1,0 +1,29 @@
+<div class="container-fluid">
+  <div class="col-md-8">
+    <%= render "hero" %><br/>
+    <table class="table table-striped table-bordered">
+      <thead>
+        <tr class="table-head">
+          <th>Listing Title</th>
+          <th>Listing owner</th>
+          <th>Current Price</th>
+          <th>Ends In</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% @listings.each do |listing| %>
+          <tr>
+            <th> <%= link_to listing.title, listing %></th>
+            <th> <%= link_to listing.user.name, listing.user %></th>
+            <th> <%= number_to_currency(listing.bids.try(:first).try(:amount)) || number_to_currency(0) %></th>
+            <th> <%= time_ago_in_words(listing.end_time) %></th>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+    <%= will_paginate %>
+  </div>
+  <div class="col-md-4">
+    <%= render "sidebar" %>
+  </div>
+</div>

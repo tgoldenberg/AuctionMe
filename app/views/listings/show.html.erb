@@ -1,0 +1,68 @@
+<div class="container-fluid">
+  <div class="col-md-8">
+    <div class="well hero-panel">
+      <h1><%= @listing.title %></h1>
+    </div>
+    <hr/>
+    <p><b>Description:</b></p>
+    <p><%= @listing.description %></p>
+    <p><b>Condition:</b></p>
+    <p><%= @listing.condition %></p>
+    <p><b>Owner:</b></p>
+    <p><%= link_to @listing.user.name, @listing.user %></p>
+    <table class="table table-bordered">
+      <thead>
+        <tr>
+          <th class="table-head">Bidding Start</th>
+          <th class="table-head">Bidding End</th>
+          <th class="table-head">Current Price</th>
+          <th class="table-head">Time Left</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><%= @listing.start_time.strftime("%m/%d/%y") %></td>
+          <td><%= @listing.end_time.strftime("%m/%d/%y") %></td>
+          <td><%= number_to_currency(@bids.try(:last).try(:amount)) || number_to_currency(0) %></td>
+          <td><%= time_ago_in_words(@listing.end_time) %></td>
+        </tr>
+      </tbody>
+    </table>
+    <%= form_for [@listing, @bid] do |f| %>
+      <% if @bid.errors.any? %>
+        <div id="error_explanation">
+          <h2><%= pluralize(@bid.errors.count, "error") %> prohibited this bid from being saved:</h2>
+
+          <ul>
+          <% @bid.errors.full_messages.each do |message| %>
+            <li><%= message %></li>
+          <% end %>
+          </ul>
+        </div>
+      <% end %>
+      <div class="form-group" style="display: flex;">
+        $<%= f.text_field :amount, class: "form-control price-field", placeholder: "your bid amount" %><br/>
+      </div>
+      <%= f.hidden_field :listing_id, value: @listing.id %>
+      <%= f.hidden_field :user_id, value: current_user.id %>
+      <%= f.submit "Make a bid", class: 'submit-button' %>
+    <% end %>
+
+  </div>
+  <div class="col-md-4">
+    <br/><br/>
+    <h2>Bid count: <b><%= @listing.bids.count %></b></h2>
+    <table class="table">
+      <tbody>
+        <% @listing.bids.pluck(:user_id).uniq.each_with_index do |user_id, idx| %>
+          <tr>
+            <td><%= idx + 1 %>. <%= link_to User.find(user_id).name, user_path(user_id) %>: Bid count: <%= User.find(user_id).bids.where(listing_id: @listing.id).count %></td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+    <hr/>
+
+  </div>
+
+</div>

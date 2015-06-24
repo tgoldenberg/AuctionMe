@@ -1,0 +1,48 @@
+<% if !user_signed_in? %>
+<ul class="bullets">
+  <li class="bullet">
+    <div class="bullet-icon bullet-icon-1">
+      <img src="https://raw.githubusercontent.com/thoughtbot/refills/master/source/images/placeholder_logo_2.png" alt=""/>
+    </div>
+
+      <div class="bullet-content">
+        <h2>Sign In</h2>
+
+        <%= form_for @user, url: login_path, id: "signin_form" do |f| %>
+          <% if @user.errors.any? %>
+            <div id="error_explanation">
+              <h2><%= pluralize(@user.errors.count, "error") %> prohibited this user from being saved:</h2>
+
+              <ul>
+              <% @user.errors.full_messages.each do |message| %>
+                <li><%= message %></li>
+              <% end %>
+              </ul>
+            </div>
+          <% end %>
+          <%= f.text_field :name, placeholder: "Username", class: "form-control" %><br/>
+          <%= f.text_field :email, placeholder: "Email", class: "form-control" %><br/>
+          <%= f.password_field :password, placeholder: "Password", class: "form-control" %><br/>
+          <%= f.submit "Login", class: "submit-button" %>
+        <% end %>
+        <%= link_to "Signup", new_user_path %>
+
+      </div>
+
+  </li>
+</ul>
+<% end %>
+<ul class="bullets">
+  <li class="bullet">
+    <div class="bullet-icon bullet-icon-1">
+      <img src="https://raw.githubusercontent.com/thoughtbot/refills/master/source/images/placeholder_logo_2.png
+" alt=""/>
+    </div>
+    <div class="bullet-content">
+      <h2>About Auctions</h2>
+      <p>Lorem dolor sit amet consectetur adipisicing elit. Doloremque, minus, blanditiis, voluptatibus nulla quia ipsam sequi quos iusto aliquam iste magnam accusamus molestias quo illum impedit. Odit officia autem.</p>
+      <p>Lorem dolor sit amet consectetur adipisicing elit. Doloremque, minus, blanditiis, voluptatibus nulla quia ipsam sequi quos iusto aliquam iste magnam accusamus molestias quo illum impedit. Odit officia autem.</p>
+      <p>Lorem dolor sit amet consectetur adipisicing elit. Doloremque, minus, blanditiis, voluptatibus nulla quia ipsam sequi quos iusto aliquam iste magnam accusamus molestias quo illum impedit. Odit officia autem.</p>
+      </div>
+  </li>
+</ul>
